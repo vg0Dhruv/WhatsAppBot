@@ -2,6 +2,20 @@ const { makeWASocket, DisconnectReason, Browsers, useMultiFileAuthState } = requ
 const { sendWhatsAppMessages } = require('./connection');
 const { fetchNotices, getLastSentNotices, updateLastSentNotices, noticeData } = require('./noticeFetcher');
 const schedule = require('node-schedule');
+const express = require('express');
+const app = express();
+const port = 8000; 
+
+// Define a route
+app.get('/', (req, res) => {
+  res.send('Hello, World!');
+});
+
+// Start the server
+app.listen(port, () => {
+  console.log(`Server is running on http://localhost:${port}`);
+});
+
 
 const GROUP_JID = '120363294435678005@g.us';
 
@@ -13,6 +27,7 @@ async function connectionLogic(authFile) {
         version: [2, 3000, 1013812660],
         browser: Browsers.windows('Desktop'),
         auth: state,
+
         printQRInTerminal: true,
     });
 
