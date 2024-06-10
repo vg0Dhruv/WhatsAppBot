@@ -58,7 +58,7 @@ async function connectionLogic(authFile) {
     });
 
     // Schedule the notice fetching and sending every hour
-    schedule.scheduleJob('0 * * * *', async () => {
+    schedule.scheduleJob('*/10 * * * *', async () => {
         try {
             await fetchNotices();
             const lastSentNotices = getLastSentNotices();
