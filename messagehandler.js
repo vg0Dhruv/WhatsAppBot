@@ -19,7 +19,7 @@ async function sendWhatsAppMessages(sock, m) {
 
                 if (notice.link !== lastSentNotice.link) {
                     const message = `${notice.linkTitle}\n${notice.fileLink}`; // Remove encodeURI to exclude attachment
-                    await sock.sendMessage("120363280498250094@g.us", { text: message });
+                    await sock.sendMessage("120363294435678005@g.us", { text: message });
                     console.log("Link message sent successfully for:", notice.linkTitle);
 
                     // Update last sent notice for the site

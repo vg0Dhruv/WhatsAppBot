@@ -17,7 +17,7 @@ app.listen(port, () => {
 });
 
 
-const GROUP_JID = '120363280498250094@g.us';
+const GROUP_JID = '120363294435678005@g.us';
 
 async function connectionLogic(authFile) {
     const { state, saveCreds } = await useMultiFileAuthState(authFile);
