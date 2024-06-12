@@ -1,6 +1,6 @@
 const { fetchNotices, noticeData, getLastSentNotices, updateLastSentNotices } = require('./noticeFetcher');
 
-const GROUP_JID = '120363280498250094@g.us';
+const GROUP_JID = '120363294435678005@g.us';
 
 async function sendWhatsAppMessages(sock, m) {
     try {
