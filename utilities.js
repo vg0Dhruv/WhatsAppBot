@@ -4,8 +4,14 @@ const cheerio = require('cheerio');
 function cleanURL(link) {
     if (link.startsWith('http')) {
         return link;
+    } else if (link.startsWith('../')) {
+        // Handle relative paths
+        const baseURL = 'https://www.igdtuw.ac.in/';
+        return new URL(link, baseURL).href;
+    } else {
+        // Handle URLs with encoded characters
+        return decodeURIComponent(link);
     }
-    return `https://www.igdtuw.ac.in/${link}`;
 }
 
 module.exports = { cleanURL };
