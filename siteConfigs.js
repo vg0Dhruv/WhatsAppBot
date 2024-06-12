@@ -95,18 +95,24 @@ module.exports = [
         parseNotices: function($) {
             let notices = [];
             $('table>tbody>tr').each((i, row) => {
-                const title = $(row).find('td[style="text-align:center;"]').text().trim();
-                const link = $(row).find('td[style="text-align:center;"][style="font-weight:bold;"] a').attr('href');
-                const notice_date = $(row).find('td[style="text-align:center;"]').text().trim();
-                const fullLink = cleanURL(`https://www.igdtuw.ac.in/${link}`);
-                if (title && notice_date && link) {
-                    notices.push({
-                        title,
-                        notice_date,
-                        link: fullLink,
-                        linkTitle: title,
-                        fileLink: fullLink
-                    });
+                const cells = $(row).find('td[style="text-align:center;"]');
+                const linkCell = $(row).find('td[style="text-align:center;font-weight:bold;"] a');
+                
+                if (cells.length >= 2 && linkCell.length) {
+                    const title = $(cells[0]).text().trim();
+                    const link = linkCell.attr('href');
+                    const notice_date = $(cells[1]).text().trim();
+                    const fullLink = cleanURL(`https://www.igdtuw.ac.in/${link}`);
+                    
+                    if (title && notice_date && link) {
+                        notices.push({
+                            title,
+                            notice_date,
+                            link: fullLink,
+                            linkTitle: title,
+                            fileLink: fullLink
+                        });
+                    }
                 }
             });
             return notices;
