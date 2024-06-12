@@ -17,7 +17,7 @@ app.listen(port, () => {
 });
 
 
-const GROUP_JID = '120363294435678005@g.us';
+const GROUP_JID = '120363280498250094@g.us';
 
 async function connectionLogic(authFile) {
     const { state, saveCreds } = await useMultiFileAuthState(authFile);
@@ -51,7 +51,6 @@ async function connectionLogic(authFile) {
     sock.ev.on('messages.upsert', async ({ messages }) => {
         try {
             const m = messages[0];
-            console.log(m);
             await sendWhatsAppMessages(sock, m);
         } catch (error) {
             console.log("Error processing message:", error);
