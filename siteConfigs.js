@@ -10,12 +10,14 @@ module.exports = [
                 const title = $(row).find('td[colspan="2"]').text().trim();
                 const notice_date = $(row).find('td[style="text-align:center;"]').text().trim();
                 const link = $(row).find('td[colspan="2"] a').attr('href');
-                const fullLink = cleanURL(`https://www.igdtuw.ac.in/${link}`);
                 if (title && notice_date && link) {
+                    const fullLink = cleanURL(link);
                     notices.push({
                         title,
                         notice_date,
-                        link: fullLink
+                        link: fullLink,
+                        linkTitle: title,
+                        fileLink: fullLink
                     });
                 }
             });
@@ -31,12 +33,14 @@ module.exports = [
                 const title = $(row).find('td[colspan="2"]').text().trim();
                 const notice_date = $(row).find('td').text().trim();
                 const link = $(row).find('td[colspan="2"] a').attr('href');
-                const fullLink = cleanURL(`https://www.igdtuw.ac.in/${link}`);
                 if (title && notice_date && link) {
+                    const fullLink = cleanURL(link);
                     notices.push({
                         title,
                         notice_date,
-                        link: fullLink
+                        link: fullLink,
+                        linkTitle: title,
+                        fileLink: fullLink
                     });
                 }
             });
@@ -52,8 +56,8 @@ module.exports = [
                 const title = $(row).find('td[colspan="5"]').text().trim();
                 const notice_date = $(row).find('td[colspan="1"]').text().trim();
                 const link = $(row).find('td[style="text-align:center;"] a').attr('href');
-                const fullLink = cleanURL(`https://www.igdtuw.ac.in/${link}`);
                 if (title && notice_date && link) {
+                    const fullLink = cleanURL(link);
                     notices.push({
                         title,
                         notice_date,
@@ -75,8 +79,8 @@ module.exports = [
                 const title = $(row).find('td[colspan="2"]').text().trim();
                 const notice_date = $(row).find('td').text().trim();
                 const link = $(row).find('td b a').attr('href');
-                const fullLink = cleanURL(`https://www.igdtuw.ac.in/${link}`);
                 if (title && notice_date && link) {
+                    const fullLink = cleanURL(link);
                     notices.push({
                         title,
                         notice_date,
@@ -102,9 +106,8 @@ module.exports = [
                     const title = $(cells[0]).text().trim();
                     const link = linkCell.attr('href');
                     const notice_date = $(cells[1]).text().trim();
-                    const fullLink = cleanURL(`https://www.igdtuw.ac.in/${link}`);
-                    
                     if (title && notice_date && link) {
+                        const fullLink = cleanURL(link);
                         notices.push({
                             title,
                             notice_date,
@@ -127,8 +130,8 @@ module.exports = [
                 const title = $(row).find('td[colspan="2"]').text().trim();
                 const link = $(row).find('td a').attr('href');
                 const notice_date = $(row).find('td').text().trim();
-                const fullLink = cleanURL(`https://www.igdtuw.ac.in/${link}`);
                 if (title && notice_date && link) {
+                    const fullLink = cleanURL(link);
                     notices.push({
                         title,
                         notice_date,

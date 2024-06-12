@@ -1,9 +1,14 @@
 const axios = require('axios');
 const cheerio = require('cheerio');
 
-function cleanURL(url) {
-    return encodeURI(url.replace(/\/\.\.\//g, '/'));
+function cleanURL(link) {
+    if (link.startsWith('http')) {
+        return link;
+    }
+    return `https://www.igdtuw.ac.in/${link}`;
 }
+
+module.exports = { cleanURL };
 
 async function fetchHTML(url, retries = 3) {
     try {
