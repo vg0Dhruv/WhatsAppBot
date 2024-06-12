@@ -89,7 +89,6 @@ async function connectionLogic(authFile) {
             updateLastSentNotices(lastSentNotices);
 
             if (messagesSent === 0) {
-                console.log(m);
                 console.log("No new notices available. No messages sent.");
             }
         } catch (error) {
