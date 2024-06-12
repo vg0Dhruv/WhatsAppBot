@@ -3,10 +3,13 @@ const { fetchNotices, noticeData, getLastSentNotices, updateLastSentNotices } = 
 function cleanFileLink(fileLink) {
     // Replace '/../' with '/'
     fileLink = fileLink.replace(/\/\.\.\//g, '/');
+    // Replace '%2520' with '%20'
+    fileLink = fileLink.replace(/%2520/g, '%20');
     // Replace spaces with '%20'
     fileLink = fileLink.replace(/ /g, '%20');
     return fileLink;
 }
+
 
 async function sendWhatsAppMessages(sock, m) {
     try {
