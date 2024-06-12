@@ -20,7 +20,10 @@ async function sendWhatsAppMessages(sock, m) {
                 const lastSentNotice = lastSentNotices[siteName] || {};
 
                 if (notice.link !== lastSentNotice.link) {
-                    const message = `${notice.linkTitle}\n${encodeURI(notice.fileLink)}`;
+                    // Replace '/../' with '/'
+                    const cleanFileLink = notice.fileLink.replace('/../', '/');
+                    // Replace spaces with '%20'
+                    const message = `${notice.linkTitle}\n${cleanFileLink.replace(/ /g, '%20')}`;
                     await sock.sendMessage(GROUP_JID, { text: message });
                     console.log("Link message sent successfully for:", notice.linkTitle);
 
@@ -39,7 +42,10 @@ async function sendWhatsAppMessages(sock, m) {
                 console.log("No new notices available. Sending last sent notices.");
                 for (const siteName in lastSentNotices) {
                     const lastNotice = lastSentNotices[siteName];
-                    const message = `${lastNotice.linkTitle}\n${encodeURI(lastNotice.fileLink)}`;
+                    // Replace '/../' with '/'
+                    const cleanFileLink = lastNotice.fileLink.replace('/../', '/');
+                    // Replace spaces with '%20'
+                    const message = `${lastNotice.linkTitle}\n${cleanFileLink.replace(/ /g, '%20')}`;
                     await sock.sendMessage(GROUP_JID, { text: message });
                     console.log("Resent last notice successfully for:", lastNotice.linkTitle);
                 }

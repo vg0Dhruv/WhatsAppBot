@@ -2,13 +2,11 @@ const axios = require('axios');
 const cheerio = require('cheerio');
 
 function cleanURL(url) {
-    return encodeURI(url.replace(/\/\.\.\//g, '/'));
+    return url.replace(/\/\.\.\//g, '/');
 }
 
 async function fetchHTML(url, retries = 3) {
     try {
-        // Ensure the URL is encoded before making the request
-        url = encodeURI(url);
         const { data: html } = await axios.get(url, { timeout: 5000 });
         return html;
     } catch (error) {
