@@ -4,17 +4,13 @@ const cheerio = require('cheerio');
 function cleanURL(link) {
     if (link.startsWith('http')) {
         return link;
-    } else if (link.startsWith('../')) {
-        // Handle relative paths
-        const baseURL = 'https://www.igdtuw.ac.in/';
-        return new URL(link, baseURL).href;
-    } else {
-        // Handle URLs with encoded characters
-        return decodeURIComponent(link);
     }
+    return `https://www.igdtuw.ac.in/${link}`;
 }
 
-module.exports = { cleanURL };
+function replaceSpaces(string) {
+    return string.replace(/ /g, '%20');
+}
 
 async function fetchHTML(url, retries = 3) {
     try {
@@ -45,7 +41,7 @@ async function processLink(fullLink) {
         if (linkTitle && fileLink) {
             return {
                 linkTitle,
-                fileLink: cleanURL(`https://www.igdtuw.ac.in/${fileLink}`)
+                fileLink: cleanURL(`https://www.igdtuw.ac.in/${replaceSpaces(fileLink)}`)
             };
         }
     } catch (error) {
