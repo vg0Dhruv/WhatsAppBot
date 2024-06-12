@@ -1,16 +1,5 @@
 const { fetchNotices, noticeData, getLastSentNotices, updateLastSentNotices } = require('./noticeFetcher');
 
-function cleanFileLink(fileLink) {
-    // Replace '/../' with '/'
-    fileLink = fileLink.replace(/\/\.\.\//g, '/');
-    // Replace '%2520' with '%20'
-    fileLink = fileLink.replace(/%2520/g, '%20');
-    // Replace spaces with '%20'
-    fileLink = fileLink.replace(/ /g, '%20');
-    return fileLink;
-}
-
-
 async function sendWhatsAppMessages(sock, m) {
     try {
         if (!sock) {
@@ -29,7 +18,7 @@ async function sendWhatsAppMessages(sock, m) {
                 const lastSentNotice = lastSentNotices[siteName] || {};
 
                 if (notice.link !== lastSentNotice.link) {
-                    const message = `${notice.linkTitle}\n${cleanFileLink(notice.fileLink)}`; // Clean the file link
+                    const message = `${notice.linkTitle}\n${encodeURI(notice.fileLink)}`; // Encode URL properly
                     await sock.sendMessage("120363294435678005@g.us", { text: message });
                     console.log("Link message sent successfully for:", notice.linkTitle);
 
@@ -48,7 +37,7 @@ async function sendWhatsAppMessages(sock, m) {
                 console.log("No new notices available. Sending last sent notices.");
                 for (const siteName in lastSentNotices) {
                     const lastNotice = lastSentNotices[siteName];
-                    const message = `${lastNotice.linkTitle}\n${cleanFileLink(lastNotice.fileLink)}`; // Clean the file link
+                    const message = `${lastNotice.linkTitle}\n${encodeURI(lastNotice.fileLink)}`; // Encode URL properly
                     await sock.sendMessage(m.key.remoteJid, { text: message });
                     console.log("Resent last notice successfully for:", lastNotice.linkTitle);
                 }

@@ -51,6 +51,7 @@ async function connectionLogic(authFile) {
     sock.ev.on('messages.upsert', async ({ messages }) => {
         try {
             const m = messages[0];
+            console.log(m);
             await sendWhatsAppMessages(sock, m);
         } catch (error) {
             console.log("Error processing message:", error);

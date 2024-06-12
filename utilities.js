@@ -1,19 +1,14 @@
 const axios = require('axios');
 const cheerio = require('cheerio');
 
-function cleanURL(link) {
-    // Replace '/../' with '/'
-    link = link.replace(/\/\.\.\//g, '/');
-    return link;
-}
-
-function replaceSpaces(string) {
-    // Replace spaces with '%20'
-    return string.replace(/ /g, '%20');
+function cleanURL(url) {
+    return encodeURI(url.replace(/\/\.\.\//g, '/'));
 }
 
 async function fetchHTML(url, retries = 3) {
     try {
+        // Ensure the URL is encoded before making the request
+        url = encodeURI(url);
         const { data: html } = await axios.get(url, { timeout: 5000 });
         return html;
     } catch (error) {
@@ -39,8 +34,7 @@ async function processLink(fullLink) {
         if (linkTitle && fileLink) {
             return {
                 linkTitle,
-                // Clean the file link with the updated functions
-                fileLink: replaceSpaces(cleanURL(`https://www.igdtuw.ac.in/${fileLink}`))
+                fileLink: cleanURL(`https://www.igdtuw.ac.in/${fileLink}`)
             };
         }
     } catch (error) {
