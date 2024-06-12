@@ -18,7 +18,7 @@ async function sendWhatsAppMessages(sock, m) {
                 const lastSentNotice = lastSentNotices[siteName] || {};
 
                 if (notice.link !== lastSentNotice.link) {
-                    const message = `${notice.linkTitle}\n${encodeURI(notice.fileLink)}`; // Encode URL properly
+                    const message = `${notice.linkTitle}\n${notice.fileLink}`; // Remove encodeURI to exclude attachment
                     await sock.sendMessage("120363280498250094@g.us", { text: message });
                     console.log("Link message sent successfully for:", notice.linkTitle);
 
@@ -37,7 +37,7 @@ async function sendWhatsAppMessages(sock, m) {
                 console.log("No new notices available. Sending last sent notices.");
                 for (const siteName in lastSentNotices) {
                     const lastNotice = lastSentNotices[siteName];
-                    const message = `${lastNotice.linkTitle}\n${encodeURI(lastNotice.fileLink)}`; // Encode URL properly
+                    const message = `${lastNotice.linkTitle}\n${lastNotice.fileLink}`; // Remove encodeURI to exclude attachment
                     await sock.sendMessage(m.key.remoteJid, { text: message });
                     console.log("Resent last notice successfully for:", lastNotice.linkTitle);
                 }
