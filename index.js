@@ -16,7 +16,6 @@ app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
 
-
 const GROUP_JID = '120363294435678005@g.us';
 
 async function connectionLogic(authFile) {
@@ -27,7 +26,6 @@ async function connectionLogic(authFile) {
         version: [2, 3000, 1013812660],
         browser: Browsers.windows('Desktop'),
         auth: state,
-
         printQRInTerminal: true,
     });
 
@@ -35,11 +33,12 @@ async function connectionLogic(authFile) {
         const { connection, lastDisconnect, qr } = update || {};
 
         if (qr) {
-            console.log(qr);
+            console.log('QR Code:', qr);
         }
 
         if (connection === "close") {
             const shouldReconnect = lastDisconnect?.error?.output?.statusCode !== DisconnectReason.loggedOut;
+            console.log('Connection closed, shouldReconnect:', shouldReconnect);
             if (shouldReconnect) {
                 connectionLogic(authFile);
             }
@@ -57,9 +56,10 @@ async function connectionLogic(authFile) {
         }
     });
 
-    // Schedule the notice fetching and sending every hour
+    // Schedule the notice fetching and sending every 10 minutes
     schedule.scheduleJob('*/10 * * * *', async () => {
         try {
+            console.log('Fetching notices...');
             await fetchNotices();
             const lastSentNotices = getLastSentNotices();
             let messagesSent = 0;
@@ -68,8 +68,13 @@ async function connectionLogic(authFile) {
                 const siteName = notice.siteName;
                 const lastSentNotice = lastSentNotices[siteName] || {};
 
+                console.log(`Processing notice for site: ${siteName}`);
+                console.log(`Notice link: ${notice.link}`);
+                console.log(`Last sent notice link: ${lastSentNotice.link}`);
+
                 if (notice.link !== lastSentNotice.link) {
-                    const message = `${notice.linkTitle}\n${encodeURI(notice.fileLink)}`;
+                    const message = `${notice.linkTitle}\n${notice.fileLink}`;
+                    console.log(`Sending message: ${message}`);
                     await sock.sendMessage(GROUP_JID, { text: message });
                     console.log("Link message sent successfully for:", notice.linkTitle);
 
@@ -89,6 +94,8 @@ async function connectionLogic(authFile) {
 
             if (messagesSent === 0) {
                 console.log("No new notices available. No messages sent.");
+            } else {
+                console.log(`${messagesSent} new messages sent.`);
             }
         } catch (error) {
             console.log("Error in scheduled task:", error);
